@@ -289,6 +289,23 @@ mina.onclick = function() {
 	}
 }
 
+matrix_doc.oncontextmenu = function(event) {
+	if (status_play == 0) {
+		var a = event.target.id;
+		a.toString();
+		if (matrix_step[a[0]][a[1]] == '?') {
+			matrix_step[a[0]][a[1]] = 0;
+			progress_bar_game += 1;
+		}
+		else if (matrix_step[a[0]][a[1]] == 0) {
+			matrix_step[a[0]][a[1]] = '?';
+			progress_bar_game -= 1;
+		}
+		display();
+		return false;
+	}
+}
+
 reload.onclick = function() {
 	start();
 }
