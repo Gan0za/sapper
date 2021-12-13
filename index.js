@@ -1,9 +1,9 @@
 let matrix_int = new Array(); //исходногенерируемый массив с палатками
 let matrix_step = new Array(); // Запись шагов игрока
-var height = 5; //Высота поля начиная от 0 включительно
-var width = 5;
-var number_mines = 1; //Количество мин
-var cell_size = 70; // размер клоток в px
+var height = 10; //Высота поля начиная от 0 включительно
+var width = 10;
+var number_mines = 10; //Количество мин
+var cell_size = 60; // размер клоток в px
 
 var matrix_doc = document.getElementById('matrix');
 var status_play = -1; // 0 игра началась (старт), 1 игра закончилась (Вы выиграли или проиграли);
