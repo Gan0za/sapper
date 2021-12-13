@@ -1,9 +1,9 @@
 let matrix_int = new Array(); //исходногенерируемый массив с палатками
 let matrix_step = new Array(); // Запись шагов игрока
-var height = 49; //Высота поля начиная от 0 включительно
-var width = 49;
-var number_mines = 100; //Количество мин
-var cell_size = 20; // размер клоток в px
+var height = 5; //Высота поля начиная от 0 включительно
+var width = 5;
+var number_mines = 1; //Количество мин
+var cell_size = 70; // размер клоток в px
 
 var matrix_doc = document.getElementById('matrix');
 var status_play = -1; // 0 игра началась (старт), 1 игра закончилась (Вы выиграли или проиграли);
@@ -101,8 +101,14 @@ function display_finish(){
 }
 
 function display_baner(str_baner){
-	document.getElementById('baner').innerHTML = str_baner;
-	document.getElementById('baner').style.visibility = "visible";
+	banerDoc = document.getElementById('baner');
+	banerDoc.innerHTML = str_baner;
+	banerDoc.style.width = cell_size * 3 + "px";
+	banerDoc.style.height = cell_size * 1.4 + "px";
+	banerDoc.style.fontSize = cell_size * 0.5 + "px";
+	banerDoc.style.top = ((parseInt(matrix_doc.style.height) / 2) + parseInt(banerDoc.style.height)) * (-1) + "px";
+    banerDoc.style.left = ((parseInt(matrix_doc.style.width) / 2) - (parseInt(banerDoc.style.width) / 2)) + "px";
+	banerDoc.style.visibility = "visible";
 }
 
 function display_bar_game(){
@@ -249,7 +255,7 @@ matrix_doc.onclick = function(event) {
 				start_step = 1;
 				fill(a[0], a[1]);
 				display();
-				if (check() == 71) {
+				if (check() == (width * height) - number_mines) {
 					status_play = 1;
 					display_baner("Вы выиграли!");
 					display_finish();
@@ -259,7 +265,7 @@ matrix_doc.onclick = function(event) {
 				start_step = 1;
 				matrix_step[a[0]][a[1]] = '*';
 				display();
-				if (check() == 71) {
+				if (check() == (width * height) - number_mines) {
 					status_play = 1;
 					display_baner("Вы выиграли!");
 					display_finish();
@@ -294,6 +300,7 @@ matrix_doc.oncontextmenu = function(event) {
 	if (status_play == 0) {
 		var a = event.target.id;
 		a.toString();
+		a = a.split('/');
 		if (matrix_step[a[0]][a[1]] == '?') {
 			matrix_step[a[0]][a[1]] = 0;
 			progress_bar_game += 1;
