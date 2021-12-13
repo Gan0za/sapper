@@ -1,84 +1,103 @@
-var matrix_int = [
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0]];
-
-var matrix_step = [
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0]];
+let matrix_int = new Array(); //исходногенерируемый массив с палатками
+let matrix_step = new Array(); // Запись шагов игрока
+var height = 49; //Высота поля начиная от 0 включительно
+var width = 49;
+var number_mines = 100; //Количество мин
+var cell_size = 20; // размер клоток в px
 
 var matrix_doc = document.getElementById('matrix');
-
 var status_play = -1; // 0 игра началась (старт), 1 игра закончилась (Вы выиграли или проиграли);
-
 var status_activity = -1; // 0 обычный ход, 1 предположение где мина;
-
 var start_step = 0; // 0 первыйх ход
-
-var progress_bar_game = 10;
+var progress_bar_game = number_mines;
 
 start()
 
+function matrixInit() {
+    for (var i = 0; i <= height; i++) {
+        matrix_int.push([]);
+        matrix_step.push([]);
+        for (var j = 0; j <= width; j++) {
+            matrix_int[i].push(0);
+            matrix_step[i].push(0);
+        }
+    }
+}
+
+function initCSS() {
+	matrix_doc.style.width = ((cell_size + 2) * width) + 'px';
+    matrix_doc.style.height = ((cell_size + 2) * height) + 'px';
+	var cellClass = document.getElementsByClassName('cell');
+    for (let i = 0; i < cellClass.length; i++) {
+        cellClass[i].style.width = cell_size + 'px';
+        cellClass[i].style.height = cell_size + 'px';
+		cellClass[i].style.fontSize = cell_size * 0.6 + 'pt';
+    }
+	var cell_stepClass = document.getElementsByClassName('cell_step');
+    for (let i = 0; i < cell_stepClass.length; i++) {
+        cell_stepClass[i].style.width = cell_size + 'px';
+        cell_stepClass[i].style.height = cell_size + 'px';
+		cell_stepClass[i].style.fontSize = cell_size * 0.6 + 'pt';
+    }
+	var cbutton_gameClass = document.getElementsByClassName('button_game');
+    for (let i = 0; i < cbutton_gameClass.length; i++) {
+        cbutton_gameClass[i].style.width = cell_size + 'px';
+        cbutton_gameClass[i].style.height = cell_size + 'px';
+		cbutton_gameClass[i].style.fontSize = cell_size * 0.6 + 'pt';
+    }
+	document.getElementById('progress_bar_game').style.width = (cell_size * 2 )+ 'px';
+    document.getElementById('progress_bar_game').style.height = cell_size + 'px';
+	document.getElementById('progress_bar_game').style.fontSize = cell_size * 0.6 + 'pt';
+}
+
 function display(){
-	matrix_doc.innerHTML = ""
-	//document.getElementById('progress_bar_game').innerHTML = progress_bar_game;
+	matrix_doc.innerHTML = "";
 	display_bar_game();
-	for( var i = 0; i < 9; i++ ) {
-		for( var j = 0; j < 9; j++ ) {
+	for( var i = 0; i < height; i++ ) {
+		for( var j = 0; j < width; j++ ) {
 			if ( matrix_step[i][j] == '*' ) {
 				if ( matrix_int[i][j] == 0)
-					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + j + '"></div>';
+					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + "/" + j + '"></div>';
 				else
-					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + j + '">' + matrix_int[i][j] + '</div>';
+					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + "/" + j + '">' + matrix_int[i][j] + '</div>';
 			} else if ( matrix_step[i][j] == '?' )
-					matrix_doc.innerHTML += '<div class="cell" id="' + i + j + '">?</div>';		
+					matrix_doc.innerHTML += '<div class="cell" id="' + i + "/" + j + '">?</div>';		
 			else
-				matrix_doc.innerHTML += '<div class="cell" id="' + i + j + '"></div>';
+				matrix_doc.innerHTML += '<div class="cell" id="' + i + "/" + j + '"></div>';
 		}
 	}
+	initCSS();
 }
 
 function display_loss(){
-	matrix_doc.innerHTML = ""
-	//document.getElementById('progress_bar_game').innerHTML = progress_bar_game;
+	matrix_doc.innerHTML = "";
 	display_bar_game();
-	for( var i = 0; i < 9; i++ ) {
-		for( var j = 0; j < 9; j++ ) {
+	for( var i = 0; i < height; i++ ) {
+		for( var j = 0; j < width; j++ ) {
 			if ( matrix_int[i][j] == '*') {
-				matrix_doc.innerHTML += '<div class="cell" id="' + i + j + '">' + matrix_int[i][j] + '</div>';
+				matrix_doc.innerHTML += '<div class="cell" id="' + i + "/" + j + '">' + matrix_int[i][j] + '</div>';
 			} else
-				matrix_doc.innerHTML += '<div class="cell_step" id="' + i + j + '"></div>';
+				matrix_doc.innerHTML += '<div class="cell_step" id="' + i + "/" + j + '"></div>';
 		}
 	}
+	initCSS();
 }
 
 function display_finish(){
 	matrix_doc.innerHTML = ""
 	document.getElementById('progress_bar_game').innerHTML = 0;
-	for( var i = 0; i < 9; i++ ) {
-		for( var j = 0; j < 9; j++ ) {
+	for( var i = 0; i < height; i++ ) {
+		for( var j = 0; j < width; j++ ) {
 			if ( matrix_step[i][j] == '*' ) {
 				if ( matrix_int[i][j] == 0)
-					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + j + '"></div>';
+					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + "/" + j + '"></div>';
 				else
-					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + j + '">' + matrix_int[i][j] + '</div>';
+					matrix_doc.innerHTML += '<div class="cell_step" id="' + i + "/" + j + '">' + matrix_int[i][j] + '</div>';
 			} else
-				matrix_doc.innerHTML += '<div class="cell" id="' + i + j + '">' + matrix_int[i][j] + '</div>';
+				matrix_doc.innerHTML += '<div class="cell" id="' + i + "/" + j + '">' + matrix_int[i][j] + '</div>';
 		}
 	}
+	initCSS();
 }
 
 function display_baner(str_baner){
@@ -88,13 +107,13 @@ function display_baner(str_baner){
 
 function display_bar_game(){
 	var flag = 0;
-	for( var i = 0; i < 9; i++ ) {
-		for( var j = 0; j < 9; j++ ) {
+	for( var i = 0; i < height; i++ ) {
+		for( var j = 0; j < width; j++ ) {
 			if ( matrix_step[i][j] == '?' )
 				flag++;
 		}
 	}
-	progress_bar_game = 10 - flag;
+	progress_bar_game = number_mines - flag;
 	document.getElementById('progress_bar_game').innerHTML = progress_bar_game;
 }
 
@@ -103,28 +122,28 @@ function fill(i, j) {
 	if ( matrix_step[i][j] != '*' ) {
 		matrix_step[i][j] = '*';
 		if ( matrix_int[i][j] == 0 ) {
-			if ( (i-1) >= 0 && (i-1) < 9 && (j-1) >= 0 && (j-1) < 9) {
+			if ( (i-1) >= 0 && (i-1) < width && (j-1) >= 0 && (j-1) < height) {
 				fill((i-1), (j-1));
 			}
-			if ( (i-1) >= 0 && (i-1) < 9 && (j) >= 0 && (j) < 9) {
+			if ( (i-1) >= 0 && (i-1) < width && (j) >= 0 && (j) < height) {
 				fill((i-1), j);
 			} 
-			if ( (i-1) >= 0 && (i-1) < 9 && (j+1) >= 0 && (j+1) < 9) {
+			if ( (i-1) >= 0 && (i-1) < width && (j+1) >= 0 && (j+1) < height) {
 				fill((i-1), (j+1));
 			} 
-			if ( i >= 0 && i < 9 && (j-1) >= 0 && (j-1) < 9) {
+			if ( i >= 0 && i < width && (j-1) >= 0 && (j-1) < height) {
 				fill(i, (j-1));
 			}
-			if ( i >= 0 && i < 9 && (j+1) >= 0 && (j+1) < 9) {
+			if ( i >= 0 && i < width && (j+1) >= 0 && (j+1) < height) {
 				fill(i, (j+1));
 			} 
-			if ( (i+1) >= 0 && (i+1) < 9 && (j-1) >= 0 && (j-1) < 9) {
+			if ( (i+1) >= 0 && (i+1) < width && (j-1) >= 0 && (j-1) < height) {
 				fill((i+1), (j-1));
 			} 
-			if ( (i+1) >= 0 && (i+1) < 9 && j >= 0 && j < 9) {
+			if ( (i+1) >= 0 && (i+1) < width && j >= 0 && j < height) {
 				fill((i+1), j);
 			} 
-			if ( (i+1) >= 0 && (i+1) < 9 && (j+1) >= 0 && (j+1) < 9) {
+			if ( (i+1) >= 0 && (i+1) < width && (j+1) >= 0 && (j+1) < height) {
 				fill((i+1), (j+1));
 			} 
 		}
@@ -134,18 +153,18 @@ function fill(i, j) {
 function rand() {
 	var i = 0;
 	do {
-		var a = Math.floor(Math.random() * 9);
-		var b = Math.floor(Math.random() * 9);
+		var a = Math.floor(Math.random() * height);
+		var b = Math.floor(Math.random() * width);
 		if (matrix_int[a][b] != '*') {
 			matrix_int[a][b] = '*';
 			i++;
 		}
-	} while (i < 10)
+	} while (i < number_mines)
 }
 
 function counting(){
-	for( var i = 0; i < 9; i++ ) {
-		for( var j = 0; j < 9; j++ ) {
+	for( var i = 0; i < height; i++ ) {
+		for( var j = 0; j < width; j++ ) {
 			if (matrix_int[i][j] != '*'){				
 				flag = 0;
 				try {
@@ -188,8 +207,8 @@ function counting(){
 
 function check() {
 	var flag = 0;
-	for( var i = 0; i < 9; i++ ) {
-		for( var j = 0; j < 9; j++ ) {
+	for( var i = 0; i < height; i++ ) {
+		for( var j = 0; j < width; j++ ) {
 			if ( matrix_step[i][j] == '*' )
 				flag++;
 		}
@@ -198,30 +217,11 @@ function check() {
 }
 
 function start() {
-	matrix_int = [
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0]];
-	matrix_step = [
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0], 
-[0,0,0,0,0,0,0,0,0]];
+	matrixInit();
 	status_play = 0;
 	status_activity = 0;
 	start_step = 0;
-	progress_bar_game = 10;
+	progress_bar_game = number_mines;
 	rand();
 	counting();
 	display();
@@ -234,10 +234,11 @@ matrix_doc.onclick = function(event) {
 	if (status_play == 0) {
 		var a = event.target.id;
 		a.toString();
+		a = a.split('/');
 		if (status_activity == 0) {
 			if (matrix_int[ a[0] ][ a[1] ] == '*') {
 				if ( start_step == 0 ) {
-					start();
+					location.reload();
 				} else {
 					status_play = 1;
 					display_baner("Вы проиграли!");
@@ -307,7 +308,7 @@ matrix_doc.oncontextmenu = function(event) {
 }
 
 reload.onclick = function() {
-	start();
+	location.reload();
 }
 
 
