@@ -1,8 +1,8 @@
 let matrix_int = new Array(); //исходногенерируемый массив с палатками
 let matrix_step = new Array(); // Запись шагов игрока
-var height = 10; //Высота поля начиная от 0 включительно
-var width = 10;
-var number_mines = 10; //Количество мин
+var height = 8; //Высота поля начиная от 0 включительно
+var width = 8;
+var number_mines = 1; //Количество мин
 var cell_size = 60; // размер клоток в px
 
 var matrix_doc = document.getElementById('matrix');
@@ -261,6 +261,7 @@ matrix_doc.onclick = function(event) {
 					display_finish();
 				}
 			}
+			else if (matrix_step[a[0]][a[1]] == "?") {} 
 			else {
 				start_step = 1;
 				matrix_step[a[0]][a[1]] = '*';
