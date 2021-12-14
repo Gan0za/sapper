@@ -3,6 +3,7 @@
 Классическая игра "Сапёр" с постоянной генерацией поля. 
 
 ![Screenshot](https://raw.githubusercontent.com/Gan0za/sapper/main/img/screenshot.png)
+
 *Демонстрация пользовательского интерфейса Supper.*
 
 ## История
