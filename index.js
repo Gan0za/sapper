@@ -2,7 +2,7 @@ let matrix_int = new Array(); //исходногенерируемый масс�
 let matrix_step = new Array(); // Запись шагов игрока
 var height = 8; //Высота поля начиная от 0 включительно
 var width = 8;
-var number_mines = 1; //Количество мин
+var number_mines = 8; //Количество мин
 var cell_size = 60; // размер клоток в px
 
 var matrix_doc = document.getElementById('matrix');
