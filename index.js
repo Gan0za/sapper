@@ -242,7 +242,7 @@ matrix_doc.onclick = function(event) {
 		a.toString();
 		a = a.split('/');
 		if (status_activity == 0) {
-			if (matrix_int[ a[0] ][ a[1] ] == '*') {
+			if (matrix_int[ a[0] ][ a[1] ] == '*' && matrix_step[a[0]][a[1]] != "?") {
 				if ( start_step == 0 ) {
 					location.reload();
 				} else {
