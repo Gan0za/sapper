@@ -2,7 +2,7 @@
 
 Классическая игра **"Сапёр"** с настройкой генерации поля.
 
-![Screenshot](https://raw.githubusercontent.com/Gan0za/sapper/main/img/screenshot.png)<br>
+![Screenshot](https://raw.githubusercontent.com/Gan0za/sapper/main/res/screenshot.png)<br>
 *Демонстрация пользовательского интерфейса Sapper.*
 
 ### История
