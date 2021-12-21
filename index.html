@@ -24,13 +24,13 @@
 <body>
     <h1>Меню:</h1>
     <p id="heightDoc">Размер поля: 8</p>
-    <input type="range" min="4" max="30" id="height" oninput="sizeGame()" value="8">
+    <input type="range" min="4" max="30" id="height" value="8">
     <p id="minesDoc">Колличество мин: 8</p>
-    <input type="range" min="1" max="64" id="mines" oninput="sizeMine()" value="8">
+    <input type="range" min="1" max="64" id="mines" value="8">
     <p id="sizeDoc">Размер ячейки в px: 60</p>
-    <input type="range" min="20" max="150" step="10" id="sizeCell" oninput="sizeCell()" value="60">
+    <input type="range" min="20" max="150" step="10" id="sizeCell" value="60">
     <a id="gameButton" href="./game.html?height=8&mines=8&size=60"><div>Играть</div></a>
 
-    <script src="js/game.js"></script>
+    <script src="js/menu.js"></script>
 </body>
 </html>
