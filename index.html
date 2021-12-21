@@ -1,36 +1,79 @@
-﻿<html>
-	<head>
-		<title>Sapper</title>
-		<link rel="shortcut icon" href="img/icon.png">
-		
-		<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/431144937/d5e66f71-f931-426c-a935-8d4651bc061f"/>
-		<meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="Gan0za/sapper: Классическая игра &quot;Сапёр&quot;" />
-		<meta name="twitter:description" content="Классическая игра &quot;Сапёр&quot;." />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapper menu</title>
+    <link rel="shortcut icon" href="img/icon.png">
+    <style>
+        h1 {
+            font-size: 25pt;
+            margin: 5px;
+	        padding: 0px;
+        }
+        p {
+            font-size: 20pt;
+            margin: 5px;
+	        padding: 0px;
+        }
+        input {
+            width: 100%;
+        }
+        input:hover {
+            opacity: 1; /* Fully shown on mouse-over */
+        }
+        div {
+            margin: 10px 5px 5px 5px;
+            padding: 0px;
+            border: 2px solid #1B262C;
+            font-size: 20pt;
+            text-align: center;
+            background-color: #3282B8;	
+        }
+        div:hover {
+            background-color: #0F4C75;	
+        }
+        a { text-decoration: none; color: #1B262C;}
+        a:visited { text-decoration: none; color: #1B262C;}
+    </style>
+</head>
+<body>
+    <h1>Меню:</h1>
+    <p id="heightDoc">Размер поля: 8</p>
+    <input type="range" min="4" max="30" id="height" oninput="sizeGame()" value="8">
+    <p id="minesDoc">Колличество мин: 8</p>
+    <input type="range" min="1" max="64" id="mines" oninput="sizeMine()" value="8">
+    <p id="sizeDoc">Размер ячейки в px: 60</p>
+    <input type="range" min="20" max="150" step="10" id="sizeCell" oninput="sizeCell()" value="60">
+    <a id="gameButton" href="./game.html?height=8&mines=8&size=60"><div>Играть</div></a>
 
-		<meta property="og:image" content="https://repository-images.githubusercontent.com/431144937/d5e66f71-f931-426c-a935-8d4651bc061f" />
-		<meta property="og:image:alt" content="Классическая игра &quot;Сапёр&quot;." />
-		<meta property="og:site_name" content="Sapper" />
-		<meta property="og:type" content="object" />
-		<meta property="og:title" content="Gan0za/sapper: Классическая игра &quot;Сапёр&quot;." />
-		<meta property="og:url" content="https://gan0za.github.io/sapper" />
-		<meta property="og:description" content="Классическая игра &quot;Сапёр&quot;." />
-		<link rel="stylesheet" type="text/css" href="css/index.css" >
-	</head>
-	<body>
-		<table>
-			<tbody>
-				<tr><td>
-					<div class="button_game" id="reload">🗘</div>
-					<div class="button_game" id="mina">?</div>
-					<div id="progress_bar_game">10</div>
-				</td></tr>
-				<tr><td>
-					<div id="matrix"></div>
-					<div id="baner">Вы выграли!</div>
-				</td></tr>
-			</tbody>
-		</table>
-	<script src="js/index.js"></script>
-	</body>
-<html>
+    <script>
+        function sizeGame() {
+            height = document.getElementById("height");
+            mines = document.getElementById("mines");
+            sizeCellDoc = document.getElementById("sizeCell");
+            gameButtonDoc = document.getElementById("gameButton");
+            mines.max = height.value * height.value;
+            document.getElementById("heightDoc").innerHTML = "Размер поля: " + height.value;
+            gameButtonDoc.href = "./game.html?height=" + height.value + "&mines=" + mines.value + "&size=" + sizeCellDoc.value;
+        }
+        function sizeMine() {
+            height = document.getElementById("height");
+            mines = document.getElementById("mines");
+            sizeCellDoc = document.getElementById("sizeCell");
+            gameButtonDoc = document.getElementById("gameButton");
+            document.getElementById("minesDoc").innerHTML = "Колличество мин: " + mines.value;
+            gameButtonDoc.href = "./game.html?height=" + height.value + "&mines=" + mines.value + "&size=" + sizeCellDoc.value;
+        }
+        function sizeCell() {
+            height = document.getElementById("height");
+            mines = document.getElementById("mines");
+            sizeCellDoc = document.getElementById("sizeCell");
+            gameButtonDoc = document.getElementById("gameButton");
+            document.getElementById("sizeDoc").innerHTML = "Размер ячейки в px: " + sizeCellDoc.value;
+            gameButtonDoc.href = "./game.html?height=" + height.value + "&mines=" + mines.value + "&size=" + sizeCellDoc.value;
+        }
+    </script>
+</body>
+</html>

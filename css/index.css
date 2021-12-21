@@ -56,3 +56,6 @@
 	left: 190px;
 	z-index: 50;
 }
+
+a { text-decoration: none; color: #1B262C;}
+a:visited { text-decoration: none; color: #1B262C;}

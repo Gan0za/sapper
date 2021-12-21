@@ -5,7 +5,18 @@ var width = 8;
 var number_mines = 8; //Количество мин
 var cell_size = 60; // размер клоток в px
 
+var url = new URL(window.location.href);
+if (url.searchParams.get("height") != null)
+	height = parseInt(url.searchParams.get("height"));
+	width = parseInt(url.searchParams.get("height"));
+if (url.searchParams.get("size") != null)
+	cell_size = parseInt(url.searchParams.get("size"));
+if (url.searchParams.get("mines") != null)
+	number_mines = parseInt(url.searchParams.get("mines"));
+
 var matrix_doc = document.getElementById('matrix');
+var mina = document.getElementById('mina');
+var reload = document.getElementById('reload');
 var status_play = -1; // 0 игра началась (старт), 1 игра закончилась (Вы выиграли или проиграли);
 var status_activity = -1; // 0 обычный ход, 1 предположение где мина;
 var start_step = 0; // 0 первыйх ход
