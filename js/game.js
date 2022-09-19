@@ -25,10 +25,10 @@ var progress_bar_game = number_mines;
 start()
 
 function matrixInit() {
-    for (var i = 0; i <= height; i++) {
+    for (var i = 0; i < height; i++) {
         matrix_int.push([]);
         matrix_step.push([]);
-        for (var j = 0; j <= width; j++) {
+        for (var j = 0; j < width; j++) {
             matrix_int[i].push(0);
             matrix_step[i].push(0);
         }
